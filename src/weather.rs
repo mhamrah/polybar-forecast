@@ -1,7 +1,7 @@
-use serde_qs;
+use failure::Error;
 use reqwest;
 use serde_json::Value;
-use failure::Error;
+use serde_qs;
 
 use config::Configuration;
 
@@ -17,9 +17,12 @@ pub enum QueryType {
 
 #[derive(Debug, Serialize)]
 struct QueryParams {
-    #[serde(rename = "APPID")] app_id: String,
-    #[serde(rename = "id")] city_id: String,
-    #[serde(rename = "units")] units: String,
+    #[serde(rename = "APPID")]
+    app_id: String,
+    #[serde(rename = "id")]
+    city_id: String,
+    #[serde(rename = "units")]
+    units: String,
     cnt: i32,
 }
 
@@ -55,26 +58,25 @@ fn send_query(url: &str) -> Result<Value, Error> {
 
 fn get_icon(code: &str) -> char {
     match code {
-        "01d" => '',
-        "01n" => '',
-        "02d" => '',
-        "02n" => '',
-        "03d" | "03n" => '',
-        "04d" | "04n" => '',
-        "09d" => '',
-        "09n" => '',
-        "10d" => '',
-        "10n" => '',
-        "11d" => '',
-        "11n" => '',
-        "13d" => '',
-        "13n" => '',
-        "50d" => '',
-        "50n" => '',
-        _ => '',
+        "01d" => '',
+        "01n" => '',
+        "02d" => '',
+        "02n" => '',
+        "03d" | "03n" => '',
+        "04d" | "04n" => '',
+        "09d" => '',
+        "09n" => '',
+        "10d" => '',
+        "10n" => '',
+        "11d" => '',
+        "11n" => '',
+        "13d" => '',
+        "13n" => '',
+        "50d" => '',
+        "50n" => '',
+        _ => '',
     }
 }
-
 
 fn parse_current(response: Value) -> Option<WeatherInfo> {
     let icon_code = response["weather"][0]["icon"].as_str()?;
@@ -98,6 +100,8 @@ fn parse_forecast(response: Value) -> Option<WeatherInfo> {
 
 #[derive(Debug, Fail)]
 pub enum ServiceError {
-    #[fail(display = "Failed to query OpenWeatherMap")] QueryError,
-    #[fail(display = "Failed to parse response")] ParseError,
+    #[fail(display = "Failed to query OpenWeatherMap")]
+    QueryError,
+    #[fail(display = "Failed to parse response")]
+    ParseError,
 }

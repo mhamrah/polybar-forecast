@@ -12,8 +12,8 @@ extern crate serde_derive;
 mod config;
 mod weather;
 
-use failure::Error;
 use config::get_config;
+use failure::Error;
 use weather::{get_info, QueryType, WeatherInfo};
 
 fn get_forecast() -> Result<String, Error> {
@@ -22,11 +22,11 @@ fn get_forecast() -> Result<String, Error> {
     let f = get_info(&cfg, QueryType::Forecast)?;
 
     if c.temperature < f.temperature {
-        Ok(format_output(c, f, &cfg.display_symbol, ''))
+        Ok(format_output(c, f, &cfg.display_symbol, ''))
     } else if c.temperature > f.temperature {
-        Ok(format_output(c, f, &cfg.display_symbol, ''))
+        Ok(format_output(c, f, &cfg.display_symbol, ''))
     } else {
-        Ok(format_output(c, f, &cfg.display_symbol, ''))
+        Ok(format_output(c, f, &cfg.display_symbol, ''))
     }
 }
 
